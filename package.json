@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@next-auth/typeorm-legacy-adapter": "^1.0.3",
+    "@stripe/stripe-js": "^1.26.0",
     "@types/node": "^17.0.22",
     "@types/react": "^17.0.41",
+    "axios": "^0.26.1",
     "faunadb": "^4.5.2",
     "next": "12.1.0",
     "next-auth": "^4.3.1",
