@@ -1,7 +1,9 @@
+import * as prismicH from "@prismicio/helpers";
 import { GetStaticProps } from 'next'
 
 import Head from "next/head";
 import { SubscribeButton } from "../Components/SubscribeButton";
+import { prismicClient } from '../services/prismic';
 import { stripe } from '../services/stripe'; 
 
 import styles from './home.module.scss'
@@ -10,10 +12,16 @@ interface HomeProps {
   product: {
     priceId: string;
     amount: number;
+  },
+  hero: {
+    id: string;
+    welcome: string;
+    title: string;
+    content: string;
   }
 }
 
-export default function Home({ product }: HomeProps) {
+export default function Home({ product, hero }: HomeProps) {
   return (
     <>
       <Head>
@@ -22,12 +30,12 @@ export default function Home({ product }: HomeProps) {
 
       <main className={styles.contentContainer} >
         <section className={styles.hero} >
-          <span>👏 Hey, welcome!</span>
+          <span>{hero.welcome}</span>
 
-          <h1>News about the <span>React</span> world!</h1>
+          <h1>{hero.title}</h1>
 
           <p>
-            Get access to all publications <br/>
+            {hero.content} <br/>
             <span>for {product.amount} month</span>
           </p>
 
@@ -70,9 +78,19 @@ export const getStaticProps: GetStaticProps = async () => {
     amount: formatter.format(price.unit_amount / 100) //tirando o valor da unidade do price
   }
 
+  let response = await prismicClient.getByUID("main", "-hey-welcome")
+
+  const hero = {
+    id: response.uid,
+    welcome: prismicH.asText(response.data.welcome),
+    title: prismicH.asText(response.data.title),
+    content: prismicH.asText(response.data.content)
+  }
+
   return {
     props: {
-      product
+      product,
+      hero
     }, 
     revalidate: 60 * 60 * 24 //24horas
   }
