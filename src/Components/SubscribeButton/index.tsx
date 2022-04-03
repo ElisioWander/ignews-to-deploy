@@ -25,6 +25,8 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
       return;
     }
 
+    //caso o usuário tenha uma assinatura ativa e tente assinar novamente clicando no botão
+    //de "Subscribe now", ele será redirecionado para a página de posts
     if(session.activeSubscription) {
       router.push("/posts")
       return;
