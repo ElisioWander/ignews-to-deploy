@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     //passando para a função buffer que fica responsável por
     //transformar a requisição em um tipo "stream"
-    // const buf = await buffer(req);
+    const buf = await buffer(req);
     const secret = req.headers["stripe-signature"];
 
     //uma forma que o stripe recomenda para monitorar os eventos
@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
       event = stripe.webhooks.constructEvent(
-        req.body,
+        buf,
         secret,
         process.env.STRIPE_WEBHOOK_SECRET
       );
