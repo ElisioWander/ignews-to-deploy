@@ -8,6 +8,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    overflow: hidden;
 }
 
 .hero {
@@ -47,5 +49,47 @@
 
     button {
         margin-top: 2.5rem;
+    }
+}
+
+@media(max-width: 768px) {
+    .contentContainer {
+        display: block;
+
+        img {
+            display: none;
+        }
+    }
+
+    .hero {
+        margin: 5rem auto 0;
+        text-align: center;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media(max-width: 425px) {
+    .contentContainer {
+        display: block;
+
+        img {
+            display: none;
+        }
+    }
+
+    .hero {
+        > span {
+            font-size: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+
+            line-height: 3.5rem;
+        } 
     }
 }
