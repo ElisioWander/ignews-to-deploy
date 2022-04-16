@@ -72,6 +72,14 @@
     }
 }
 
+@media(min-width: 768px) {
+    .hero {
+        button:first-of-type {
+            display: none;
+        }
+    }
+}
+
 @media(max-width: 425px) {
     .contentContainer {
         display: block;
@@ -82,6 +90,8 @@
     }
 
     .hero {
+        margin-top: 3rem;
+
         > span {
             font-size: 1rem;
         }

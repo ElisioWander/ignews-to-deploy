@@ -2,6 +2,7 @@ import * as prismicH from "@prismicio/helpers";
 import { GetStaticProps } from 'next'
 
 import Head from "next/head";
+import { SignInButton } from "../Components/SignInButton";
 import { SubscribeButton } from "../Components/SubscribeButton";
 import { prismicClient } from '../services/prismic';
 import { stripe } from '../services/stripe'; 
@@ -38,6 +39,8 @@ export default function Home({ product, hero }: HomeProps) {
             {hero.content} <br/>
             <span>for {product.amount} month</span>
           </p>
+
+          <SignInButton />
 
           <SubscribeButton priceId={product.priceId} />
         </section>
