@@ -5,13 +5,9 @@ import { useRouter } from 'next/router'
 
 import styles from "./styles.module.scss";
 
-interface SubscribeButtonProps {
-  priceId: string;
-}
-
-export function SubscribeButton({ priceId }: SubscribeButtonProps) {
+export function SubscribeButton() {
   const { data: session } = useSession();
-  const router = useRouter()
+  const route = useRouter()
 
   //quando o usuário clicar no botaão de Subscribe vai ser chamada a rota
   //subscribe feita na API Routes e se tudo estiver nos conformes ele será
@@ -28,7 +24,7 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
     //caso o usuário tenha uma assinatura ativa e tente assinar novamente clicando no botão
     //de "Subscribe now", ele será redirecionado para a página de posts
     if(session.activeSubscription) {
-      router.push("/posts")
+      route.push("/posts")
       return;
     }
 

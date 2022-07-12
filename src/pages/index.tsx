@@ -1,28 +1,19 @@
-import * as prismicH from "@prismicio/helpers";
 import { GetStaticProps } from 'next'
-
-import Head from "next/head";
 import { SignInButton } from "../Components/SignInButton";
 import { SubscribeButton } from "../Components/SubscribeButton";
-import { prismicClient } from '../services/prismic';
 import { stripe } from '../services/stripe'; 
+import Head from "next/head";
 
 import styles from './home.module.scss'
 
 interface HomeProps {
   product: {
     priceId: string;
-    amount: number;
-  },
-  hero: {
-    id: string;
-    welcome: string;
-    title: string;
-    content: string;
+    amount: string;
   }
 }
 
-export default function Home({ product, hero }: HomeProps) {
+export default function Home({ product }: HomeProps) {
   return (
     <>
       <Head>
@@ -31,18 +22,21 @@ export default function Home({ product, hero }: HomeProps) {
 
       <main className={styles.contentContainer} >
         <section className={styles.hero} >
-          <span>{hero.welcome}</span>
+          <span>Hey!👏</span>
 
-          <h1>{hero.title}</h1>
+          <h1>
+            News about the <br />
+            React world!
+          </h1>
 
           <p>
-            {hero.content} <br/>
-            <span>for {product.amount} month</span>
+            Get access to all publications <br/>
+            <span>for $9.90 month</span>
           </p>
 
           <SignInButton />
 
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton/>
         </section>
 
         <img src="/images/avatar.svg" alt="Girl coding" />
@@ -81,19 +75,9 @@ export const getStaticProps: GetStaticProps = async () => {
     amount: formatter.format(price.unit_amount / 100) //tirando o valor da unidade do price
   }
 
-  let response = await prismicClient.getByUID("main", "-hey-welcome")
-
-  const hero = {
-    id: response.uid,
-    welcome: prismicH.asText(response.data.welcome),
-    title: prismicH.asText(response.data.title),
-    content: prismicH.asText(response.data.content)
-  }
-
   return {
     props: {
-      product,
-      hero
+      product
     }, 
     revalidate: 60 * 60 * 24 //24horas
   }

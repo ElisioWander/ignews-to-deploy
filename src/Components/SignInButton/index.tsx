@@ -28,7 +28,7 @@ export function SignInButton() {
       onClick={() => signIn("github")}
     >
       <FaGithub color="#EBA417" />
-      Sign In With Github
+      Sign in with Github
     </button>
   );
 }

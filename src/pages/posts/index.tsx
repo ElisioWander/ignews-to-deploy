@@ -1,9 +1,8 @@
+import { GetStaticProps } from "next";
+import { getPrismicClient } from "../../services/prismic";
 import * as prismicH from "@prismicio/helpers";
 import Link from 'next/link'
-
-import { GetStaticProps } from "next";
 import Head from "next/head";
-import { prismicClient } from "../../services/prismic";
 
 import styles from "./styles.module.scss";
 
@@ -43,10 +42,14 @@ export default function Posts({ posts }: PostsProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await prismicClient.getAllByType("post", {
+  const prismic = getPrismicClient()
+
+  const response = await prismic.getAllByType("post", {
     fetch: ["post.title", "post.content"],
     pageSize: 100,
   });
+
+  console.log(response)
 
   //sempre formatar os dados no momento da busca e não da hora de exibir os dados na interface
   const posts = response.map((post) => {
