@@ -1,12 +1,11 @@
-import * as prismicH from "@prismicio/helpers";
-
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { prismicClient } from '../../../services/prismic'
+import { getPrismicClient } from '../../../services/prismic'
+import * as prismicH from "@prismicio/helpers";
+import Head from "next/head";
+import Link from "next/link";
 
 import styles from '../post.module.scss'
 
@@ -71,8 +70,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   //pegar o slug de dentro do params para buscar os dados do post
   const { slug } = params
 
+  const prismic = getPrismicClient()
+
   //pegando um post específico atravez do seu slug que é um identificador
-  const response = await prismicClient.getByUID("post", String(slug))
+  const response = await prismic.getByUID("post", String(slug))
 
   //formatando os dados 
   const post = {

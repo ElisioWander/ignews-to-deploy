@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 
 export function SubscribeButton() {
   const { data: session } = useSession();
-  const route = useRouter()
+  const router = useRouter()
 
   //quando o usuário clicar no botaão de Subscribe vai ser chamada a rota
   //subscribe feita na API Routes e se tudo estiver nos conformes ele será
@@ -24,7 +24,7 @@ export function SubscribeButton() {
     //caso o usuário tenha uma assinatura ativa e tente assinar novamente clicando no botão
     //de "Subscribe now", ele será redirecionado para a página de posts
     if(session.activeSubscription) {
-      route.push("/posts")
+      router.push("/posts")
       return;
     }
 

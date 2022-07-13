@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
-import { prismicClient } from '../../services/prismic'
-
+import { getPrismicClient } from '../../services/prismic'
 import * as prismicH from "@prismicio/helpers";
 import Head from "next/head";
 
@@ -40,14 +39,27 @@ export default function Post({ post }: PostProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
+  const prismic = getPrismicClient()
+
   //verificar se o usuário está logado
   const session = await getSession({ req })
 
   //pegar o slug de dentro do params para buscar os dados do post
   const { slug } = params
 
+  //se o usuário não tiver uma assinatura ativa, ele então, será redirecionado para a página
+  //principal
+  if(!session?.activeSubscription) {
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false
+      }
+    }
+  }
+
   //pegando um post específico atravez do seu slug que é um identificador
-  const response = await prismicClient.getByUID("post", String(slug))
+  const response = await prismic.getByUID("post", String(slug))
 
   //formatando os dados 
   const post = {
@@ -59,17 +71,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
         month: "long",
         year: "numeric"
     })
-  }
-
-  //se o usuário não tiver uma assinatura ativa, ele então, será redirecionado para a página
-  //principal
-  if(!session?.activeSubscription) {
-    return {
-      redirect: {
-        destination: `/posts/preview/${slug}`,
-        permanent: false
-      }
-    }
   }
 
   return {

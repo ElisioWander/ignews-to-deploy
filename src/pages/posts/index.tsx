@@ -49,8 +49,6 @@ export const getStaticProps: GetStaticProps = async () => {
     pageSize: 100,
   });
 
-  console.log(response)
-
   //sempre formatar os dados no momento da busca e não da hora de exibir os dados na interface
   const posts = response.map((post) => {
     return {
